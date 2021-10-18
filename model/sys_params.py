@@ -94,6 +94,9 @@ asset_initial_values = {
 #a = [0.8, 1.2]
 a = [1.0]
 
+#### Parameter sweep for the fee percentage
+fee_percentage = [0.01, 0.02, 0.05]
+
 # V2 Spec June 28th 2021: Initialization of coefficients based upon adding new asset to pool
 
 ##################################### a #################################
@@ -164,6 +167,7 @@ exo_composite = list(exo_composite)
 ACTION_LIST =  list(ACTION_LIST)
 CHANGE_LOG = list(CHANGE_LOG)
 a = list(a)
+fee_percentage = list(fee_percentage)
 ENABLE_BALANCER_PRICING = list(ENABLE_BALANCER_PRICING)
 
 
@@ -178,6 +182,7 @@ params = {
     'ACTION_LIST': ACTION_LIST,
     'CHANGE_LOG': CHANGE_LOG,
     'a': a, 
+    'fee_percentage': fee_percentage,
     'ENABLE_BALANCER_PRICING': ENABLE_BALANCER_PRICING,
     'exo_trade_size': exo_trade_size,
     'mu': mu,
