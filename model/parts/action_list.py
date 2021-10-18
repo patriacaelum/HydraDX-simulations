@@ -5,7 +5,7 @@ import random
 import math
 
 from .oracles import constant_function, step_function
-
+from ..sys_params import params
 
 # Set numpy random seed for replication
 np.random.seed(42)
@@ -29,7 +29,8 @@ def actionDecoder(params, step, history, prev_state):
     }
     
     # fees_array contains 3 possible fee percentages for Hypothesis
-    fees_array = [0.01, 0.02, 0.05]
+    #fees_array = [0.01, 0.02, 0.05]
+    fees_array = params['fee_percentage']
     revenue_array = []
 
     # Populate revenue_array with revenue from every potential fee in fees_array
