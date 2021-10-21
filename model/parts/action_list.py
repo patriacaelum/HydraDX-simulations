@@ -4,8 +4,7 @@ import numpy as np
 import random
 import math
 
-from .oracles import constant_function, step_function
-from ..sys_params import params
+from .oracles import constant_function
 
 # Set numpy random seed for replication
 np.random.seed(42)
@@ -34,8 +33,8 @@ def actionDecoder(params, step, history, prev_state):
     revenue_array = []
 
     # Populate revenue_array with revenue from every potential fee in fees_array
-    for value in fees_array:
-	    revenue_array.append(prev_state['trade_random_size'] * value)
+    #for value in fees_array:
+	#    revenue_array.append(prev_state['trade_random_size'] * value)
 
     timestep = prev_state['timestep']
     pool = prev_state['pool']
@@ -47,8 +46,14 @@ def actionDecoder(params, step, history, prev_state):
     action['direction_q'] = prev_state['trade_random_direction']
 
     # Oracle prices
-    action['oracle_price_i'] = constant_function(timestep, 0)
-    action['oracle_price_j'] = constant_function(timestep, 0)
+    if timestep == 1:
+        action['oracle_price_i'] = params['oracle_price_i']
+        action['oracle_price_j'] = params['oracle_price_j']
+        action['oracle_price_hydra'] = params['oracle_price_hydra']
+    else:
+        action['oracle_price_i'] = constant_function(timestep, 0)
+        action['oracle_price_j'] = constant_function(timestep, 0)
+        action['oracle_price_hydra'] = constant_function(timestep, 0)
  
 
     ############# CREATE AGENT ID's ################    
@@ -212,7 +217,7 @@ def s_purchased_asset_id(params, step, history, prev_state, policy_input):
     return 'purchased_asset_id', purchased_asset_id
 
 def s_asset_random(params, step, history, prev_state, policy_input):
-    if params['exo_trade'] == 'pass' and params['exo_liq'] == 'pass':
+    if params.get('exo_trade') == 'pass' and params.get('exo_liq') == 'pass':
         # there are no trades to be made this timestep
         return 'asset_random_choice', np.nan
     else:
@@ -221,7 +226,7 @@ def s_asset_random(params, step, history, prev_state, policy_input):
         return 'asset_random_choice', asset_random_choice
 
 def s_trade_random(params, step, history, prev_state, policy_input):
-    if params['exo_trade'] == 'pass' and params['exo_liq'] == 'pass':
+    if params.get('exo_trade') == 'pass' and params.get('exo_liq') == 'pass':
         # there are no trades to be made this timestep
         return 'trade_random_size', np.nan
     else:

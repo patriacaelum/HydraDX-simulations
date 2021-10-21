@@ -1,4 +1,5 @@
 import itertools
+from .parts.oracles import *
 
 
 """
@@ -153,10 +154,14 @@ initial_values = {
 fee_numerator = [1000]
 fee_denominator = [1000]
 
+oracle_price_i = [1, 2, 3]
+oracle_price_j = [2]
+oracle_price_hydra = [2]
+
 ### Parameters
-factors = [fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING]
+factors = [fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra]
 product = list(itertools.product(*factors))
-fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING = zip(*product)
+fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra = zip(*product)
 fee_numerator = list(fee_numerator)
 fee_denominator = list(fee_denominator)
 exo_trade =  list(exo_trade)
@@ -188,5 +193,9 @@ params = {
     'mu': mu,
     'sigma': sigma,
     'exo_random_sequence': exo_random_sequence,
+    'oracle_price_i': list(oracle_price_i),
+    'oracle_price_j': list(oracle_price_j),
+    'oracle_price_hydra': list(oracle_price_hydra),
+    #'oracle_function': [constant_function]
 }
 

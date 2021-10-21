@@ -19,6 +19,12 @@ def mechanismHub_oracle_price_j(params, substep, state_history, prev_state, poli
     """
     return 'oracle_price_j', prev_state['oracle_price_j'] + policy_input['oracle_price_j']
 
+def mechanismHub_oracle_price_hydra(params, substep, state_history, prev_state, policy_input):
+    """
+    This mechanism returns the updated oracle price for Hydra.
+    """
+    return 'oracle_price_hydra', prev_state['oracle_price_hydra'] + policy_input['oracle_price_hydra']
+
 def mechanismHub_fee_revenue(params, substep, state_history, prev_state, policy_input):
     """
     This mechanismHub returns the updated fee taken from the trade. This is a practical implementation of fee hypothesis 1
