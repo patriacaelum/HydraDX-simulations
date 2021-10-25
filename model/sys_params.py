@@ -159,9 +159,9 @@ oracle_price_j = [2]
 oracle_price_hydra = [2]
 
 ### Parameters
-factors = [fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra]
+factors = [fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, fee_percentage, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra]
 product = list(itertools.product(*factors))
-fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra = zip(*product)
+fee_numerator, fee_denominator, exo_trade, exo_liq, ENABLE_SYMMETRIC_LIQ, exo_asset, exo_composite, ACTION_LIST, CHANGE_LOG, a, fee_percentage, ENABLE_BALANCER_PRICING, oracle_price_i, oracle_price_j, oracle_price_hydra = zip(*product)
 fee_numerator = list(fee_numerator)
 fee_denominator = list(fee_denominator)
 exo_trade =  list(exo_trade)
