@@ -27,8 +27,6 @@ def actionDecoder(params, step, history, prev_state):
         'direction_q': str()
     }
     
-    # fees_array contains 3 possible fee percentages for Hypothesis
-    #fees_array = [0.01, 0.02, 0.05]
     fee_percent = params['fee_percentage'] #fee_percent = 0.01 or 0.02 or 0.05
     trade_amount = 1 - fee_percent #trade_amount = 0.99 or 0.98 or 0.95
     revenue_array = []
@@ -193,7 +191,7 @@ def actionDecoder(params, step, history, prev_state):
         action['agent_id'] = prev_state['uni_agents']['m'][agent5_id]
         if action['asset_id'] == 'j':
             action['agent_id'] = prev_state['uni_agents']['m'][agent5_id]
-            action['ri_sold'] = 4 * prev_state['trade_random_size']
+            action['ri_sold'] = prev_state['trade_random_size']
             action['purchased_asset_id'] = 'i'
             action['direction'] = 'ji'           
     print(action)
