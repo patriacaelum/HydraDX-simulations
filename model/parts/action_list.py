@@ -29,7 +29,8 @@ def actionDecoder(params, step, history, prev_state):
     
     # fees_array contains 3 possible fee percentages for Hypothesis
     #fees_array = [0.01, 0.02, 0.05]
-    fees_array = params['fee_percentage']
+    fee_percent = params['fee_percentage'] #fee_percent = 0.01 or 0.02 or 0.05
+    trade_amount = 1 - fee_percent #trade_amount = 0.99 or 0.98 or 0.95
     revenue_array = []
 
     # Populate revenue_array with revenue from every potential fee in fees_array
@@ -40,8 +41,9 @@ def actionDecoder(params, step, history, prev_state):
     pool = prev_state['pool']
     action['asset_id'] = prev_state['asset_random_choice']
     action['q_sold'] = prev_state['trade_random_size'] * 2
-    action['ri_sold'] = prev_state['trade_random_size'] * 0.99 # Reduce amount used as fee for Hypothesis 1
-    action['fee'] = prev_state['trade_random_size'] * 0.01 # Collect fee as static 1% for Hypothesis 1
+    action['ri_sold'] = prev_state['trade_random_size'] * trade_amount
+    action['fee'] = prev_state['trade_random_size'] * fee_percent
+    action['fee_percent'] = fee_percent * 100 # Percentage deducted from trade as fee
     action['fees'] = revenue_array # Collected fees as 1%, 2% & 5% for Hypothesis 2
     action['direction_q'] = prev_state['trade_random_direction']
 
