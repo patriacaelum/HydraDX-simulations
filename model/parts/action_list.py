@@ -29,11 +29,6 @@ def actionDecoder(params, step, history, prev_state):
     
     fee_percent = params['fee_percentage'] #fee_percent = 0.01 or 0.02 or 0.05
     trade_amount = 1 - fee_percent #trade_amount = 0.99 or 0.98 or 0.95
-    revenue_array = []
-
-    # Populate revenue_array with revenue from every potential fee in fees_array
-    #for value in fees_array:
-	#    revenue_array.append(prev_state['trade_random_size'] * value)
 
     timestep = prev_state['timestep']
     pool = prev_state['pool']
@@ -42,7 +37,6 @@ def actionDecoder(params, step, history, prev_state):
     action['ri_sold'] = prev_state['trade_random_size'] * trade_amount
     action['fee'] = prev_state['trade_random_size'] * fee_percent
     action['fee_percent'] = fee_percent * 100 # Percentage deducted from trade as fee
-    action['fees'] = revenue_array # Collected fees as 1%, 2% & 5% for Hypothesis 2
     action['direction_q'] = prev_state['trade_random_direction']
 
     # Oracle prices
