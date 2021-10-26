@@ -109,6 +109,7 @@ initial_state = {
     'purchased_asset_id': 'N/A',
     'fee_revenue': defaultdict(lambda: 0), # Dictionary where the key is the asset & the value is the fee revenue generated from asset
     'fee_percent': 0,
+    'dynamic_revenue': defaultdict(lambda: 0), # Dictionary where the key is the asset & the value is the fee revenue generated from asset for a dynamic fee
     'oracle_price_i': 0,
     'oracle_price_j': 0,
     'oracle_price_hydra': 2,
