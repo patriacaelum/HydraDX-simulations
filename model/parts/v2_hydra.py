@@ -31,6 +31,16 @@ def mechanismHub_fee_percent(params, substep, state_history, prev_state, policy_
     """
     return 'fee_percent', policy_input['fee_percent']
 
+def mechanismHub_dynamic_fee_percent(params, substep, state_history, prev_state, policy_input):
+    """
+    This mechanism returns the revenue generated from a dynamic fee.
+    """
+    asset = policy_input['asset_id']
+    dynamic_rev = prev_state['fee_revenue']
+    dynamic_rev[asset] = dynamic_rev[asset]+ policy_input['dynamic_fee']
+
+    return 'dynamic_revenue', dynamic_rev
+
 def mechanismHub_fee_revenue(params, substep, state_history, prev_state, policy_input):
     """
     This mechanismHub returns the updated fee taken from the trade. This is a practical implementation of fee hypothesis 1
