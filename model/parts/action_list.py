@@ -5,6 +5,7 @@ import random
 import math
 
 from .oracles import constant_function
+from .dynamic_fee import oracle_difference
 
 # Set numpy random seed for replication
 np.random.seed(42)
@@ -30,12 +31,23 @@ def actionDecoder(params, step, history, prev_state):
     fee_percent = params['fee_percentage'] #fee_percent = 0.01 or 0.02 or 0.05
     trade_amount = 1 - fee_percent #trade_amount = 0.99 or 0.98 or 0.95
 
+    #Get current asset price (internal market price) for dynamic fee
+    current_price = prev_state['pool'].get_price(prev_state['asset_random_choice'])
+    
+    #Get required oracle price for dynamic fee
+    if prev_state['asset_random_choice'] == 'i':
+        oracle_price = params['oracle_price_i']
+    elif prev_state['asset_random_choice'] == 'j':
+        oracle_price = params['oracle_price_j']
+    dynamic_fee = oracle_difference(current_price, oracle_price, fee_percent)
+    
     timestep = prev_state['timestep']
     pool = prev_state['pool']
     action['asset_id'] = prev_state['asset_random_choice']
     action['q_sold'] = prev_state['trade_random_size'] * 2
     action['ri_sold'] = prev_state['trade_random_size'] * trade_amount
     action['fee'] = prev_state['trade_random_size'] * fee_percent
+    action['dynamic_fee'] = prev_state['trade_random_size'] * dynamic_fee
     action['fee_percent'] = fee_percent * 100 # Percentage deducted from trade as fee
     action['direction_q'] = prev_state['trade_random_direction']
 
