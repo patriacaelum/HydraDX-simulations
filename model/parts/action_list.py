@@ -41,11 +41,14 @@ def actionDecoder(params, step, history, prev_state):
         oracle_price = params['oracle_price_j']
     dynamic_fee = oracle_difference(current_price, oracle_price, fee_percent)
     
+    dynamic_trade_amount = 1 - dynamic_fee #trade_amount = 0.99 or 0.98 or 0.95
+    
     timestep = prev_state['timestep']
     pool = prev_state['pool']
     action['asset_id'] = prev_state['asset_random_choice']
     action['q_sold'] = prev_state['trade_random_size'] * 2
-    action['ri_sold'] = prev_state['trade_random_size'] * trade_amount
+    #action['ri_sold'] = prev_state['trade_random_size'] * trade_amount # traded amount with static fee
+    action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount
     action['fee'] = prev_state['trade_random_size'] * fee_percent
     action['dynamic_fee'] = prev_state['trade_random_size'] * dynamic_fee
     action['fee_percent'] = fee_percent * 100 # Percentage deducted from trade as fee
@@ -127,16 +130,16 @@ def actionDecoder(params, step, history, prev_state):
 ########## TEMP TEST SELL R FOR Q ############
     ####### AGENT 1 ######################
     if params['exo_trade'] == 'test_r_for_q':
-        action['ri_sold'] = prev_state['trade_random_size']
+        action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount
         action['action_id'] = 'Q_Purchase'
         action['purchased_asset_id'] = 'q'
         P = pool.get_price('i') 
-        action['ri_sold'] = prev_state['trade_random_size']         
+        action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount         
         action['agent_id'] = prev_state['uni_agents']['m'][agent1_id]
         if action['asset_id'] == 'j':
             P = pool.get_price(action['asset_id'])             
             action['agent_id'] = prev_state['uni_agents']['m'][agent1_id] 
-            action['ri_sold'] = prev_state['trade_random_size'] 
+            action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount 
             action['purchased_asset_id'] = 'q'
 
     ###############################################
@@ -188,7 +191,7 @@ def actionDecoder(params, step, history, prev_state):
     ########## TEMP TEST SELL R FOR R ############
     ####### AGENT 5 ######################
     if params['exo_trade'] == 'test_r_for_r':        
-        action['ri_sold'] = prev_state['trade_random_size']
+        action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount
         action['action_id'] = 'R_Swap'
         action['purchased_asset_id'] = 'j'
         action['direction'] = 'ij'
@@ -197,7 +200,7 @@ def actionDecoder(params, step, history, prev_state):
         action['agent_id'] = prev_state['uni_agents']['m'][agent5_id]
         if action['asset_id'] == 'j':
             action['agent_id'] = prev_state['uni_agents']['m'][agent5_id]
-            action['ri_sold'] = prev_state['trade_random_size']
+            action['ri_sold'] = prev_state['trade_random_size'] * dynamic_trade_amount
             action['purchased_asset_id'] = 'i'
             action['direction'] = 'ji'           
     print(action)
